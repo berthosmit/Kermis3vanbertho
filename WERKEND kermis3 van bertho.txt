@@ -1,0 +1,87 @@
+// nieuwe opzet van scratch af aan
+// het is er niet beter op geworden tov vorige exemplaren
+// Doelstelling 1 - omzet per attractie bepalen
+// Doelstelling 2 - omzet door de dag heen vasthouden cq optellen
+// Doelstelling 2 krijg ik niet voor elkaar
+
+import java.util.Scanner;
+
+public class Kermisnw1 {
+
+	public static void main(String[] args) {
+		Kassa kermis = new Kassa();
+		kermis.kassadraaien();
+	}
+}
+
+class Kassa {
+	// dit is array voor alle attracties, in dit geval  2 van 6
+	Attractie[] attracties = new Attractie[2]; // declaratie van de attracties
+
+	void kassadraaien() {
+		Scanner scannerKermis = new Scanner(System.in);
+		
+		attracties[0] = new Botsauto();		// het vullen van array veld met adres
+		attracties[1] = new Spin();
+		
+/////////////////////// KEUZE MAKEN VOOR DE TE SPELEN ATTRACTIE
+		System.out.println("We hebben de volgende attracties: ");
+		for (int i = 0; i < attracties.length; i++) {
+			System.out.println("Nr. " + (i+1) + ": Attractienaam: " + attracties[i].naam);
+			System.out.println("     Entreeprijs: € " +  attracties[i].entree + " p.p.");
+			}
+			System.out.println("Welke attractie wilt u bezoeken? Maak uw keuze gevolgd door <Enter>.");
+			int keuzeAtt = scannerKermis.nextInt();
+			
+			switch (keuzeAtt) {
+			case 1 : 	System.out.println("We gaan naar "+ attracties[keuzeAtt-1].naam);
+			break;
+			case 2 : 	System.out.println("We gaan naar "+ attracties[keuzeAtt-1].naam);
+			break;
+			}
+			System.out.println("Met hoeveel personen wilt u naar "+ attracties[keuzeAtt-1].naam);
+			int aantalKaartjes = scannerKermis.nextInt();
+			attracties[keuzeAtt-1].afrekenenKaartjes(aantalKaartjes);		// ik raak de naam vd attractie kwijt
+		}
+	}
+
+	class Attractie extends Kassa{
+			double entree;
+			double omzet;
+			String naam;
+			int totaalAantalKaartjes;
+			
+			void afrekenenKaartjes(int aantalKaartjes) {
+				omzet += aantalKaartjes * entree;
+				totaalAantalKaartjes += aantalKaartjes;
+				System.out.println("Het totaal aantal verkochte kaartjes = " + totaalAantalKaartjes);	
+				System.out.println("De totale omzet = " + omzet);	
+				System.out.println("");	
+				System.out.println("De attractie is voorbij. We gaan opnieuw naar de kassa");	
+				System.out.println("");	
+				kassadraaien();
+		}
+	}
+	
+	class Botsauto extends Attractie {
+		Botsauto() { 					// constructor om de waarde van de entree prijs te vullen
+			entree = 2.50;
+			naam = "Botsauto     ";
+		}
+	}
+
+	class Spin extends Attractie {
+		Spin() { 						// constructor om de waarde van de entree prijs te vullen
+			entree = 2.25;
+			naam = "Spin         ";
+		}
+	}
+
+//		deze zal ik pas inzetten als ik aan wil geven spel te beeindigen bijv. toets 0.
+//		class Eindespel extends Kassa {
+//			Eindespel() { 			// constructor eindespel te forceren
+//				System.out.println("No worries. Dank voor je bezoek. Tot de volgende keer.");
+//				System.out.println("");
+//			}
+//		}
+
